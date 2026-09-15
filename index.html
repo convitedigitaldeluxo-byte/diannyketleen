@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dianny Ketleen · XV Anos</title>
+<meta name="description" content="Convite para os XV anos de Dianny Ketleen · 17 de outubro de 2026 às 12:00 · Espaço Mari">
+<meta property="og:title" content="Dianny Ketleen · XV Anos">
+<meta property="og:description" content="17 de outubro de 2026 às 12:00 · Espaço Mari. Toque para abrir o convite.">
+<meta property="og:image" content="assets/envelope.jpg">
+<meta name="theme-color" content="#1f3a6b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/convite.jpg">
+<style>
+  :root{
+    --azul-noite:#162b52;
+    --azul:#4f74ad;
+    --ouro:#e6c48a;
+    --ouro-escuro:#b88a4a;
+    --marfim:#fbf5ea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:var(--azul-noite);overflow:hidden}
+  body{
+    font-family:"Cormorant Garamond",Georgia,serif;color:var(--marfim);
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at center,#2c4d86 0%,var(--azul-noite) 70%);
+  }
+
+  /* Palco 9:16 que cabe em qualquer tela */
+  .palco{
+    position:relative;
+    width:min(100vw, calc(100svh * 9 / 16));
+    height:min(100svh, calc(100vw * 16 / 9));
+    overflow:hidden;
+    box-shadow:0 0 60px rgba(0,0,0,.45);
+  }
+  .tela{position:absolute;inset:0;transition:opacity .8s ease}
+  .tela img,.tela video{width:100%;height:100%;object-fit:cover;display:block}
+  .oculto{opacity:0;pointer-events:none}
+  #presentes{z-index:2}
+
+  /* Envelope */
+  #envelope{cursor:pointer;z-index:3;border:0;background:none;color:inherit;font:inherit}
+  #envelope video{position:absolute;inset:0}
+  .dica{
+    position:absolute;left:50%;bottom:9%;transform:translateX(-50%);
+    padding:.55em 1.4em;border-radius:999px;
+    background:rgba(22,43,82,.72);border:1px solid var(--ouro);
+    color:var(--ouro);font-size:clamp(17px,4.6vw,22px);font-weight:600;letter-spacing:.04em;
+    white-space:nowrap;animation:respira 2.2s ease-in-out infinite;
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  }
+  @keyframes respira{0%,100%{opacity:.75;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.05)}}
+  #envelope.abrindo .dica{opacity:0;animation:none;transition:opacity .3s}
+
+  /* Áreas clicáveis sobre as imagens (posições em % da arte) */
+  .area{
+    position:absolute;display:block;border-radius:50% 50% 18% 18%;
+    background:transparent;border:0;cursor:pointer;
+  }
+  .area:focus-visible{outline:3px solid var(--ouro);outline-offset:2px}
+  .area:active{background:rgba(230,196,138,.18)}
+
+  #area-confirmar{left:12%;top:66%;width:21.4%;height:15.8%}
+  #area-presentes{left:39.3%;top:66%;width:21.4%;height:15.8%}
+  #area-local   {left:66.5%;top:66%;width:21.4%;height:15.8%}
+  #area-pix     {left:10.5%;top:35.8%;width:21.5%;height:16.8%}
+
+  /* Botões flutuantes */
+  .botao{
+    position:absolute;z-index:5;border:1px solid var(--ouro);
+    background:rgba(22,43,82,.78);color:var(--ouro);
+    font:600 clamp(15px,4vw,19px)/1 "Cormorant Garamond",Georgia,serif;
+    border-radius:999px;cursor:pointer;
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  }
+  .botao:focus-visible{outline:3px solid var(--marfim);outline-offset:2px}
+  #som{bottom:2.2%;right:3.5%;width:44px;height:44px;display:grid;place-items:center;padding:0}
+  #som svg{width:22px;height:22px}
+  #voltar{top:2.2%;left:3.5%;padding:.6em 1.1em}
+  #copiar-pix{
+    top:2.2%;right:3.5%;
+    padding:.6em 1.1em;white-space:nowrap;
+    background:linear-gradient(180deg,#f0d59f,var(--ouro-escuro));
+    color:var(--azul-noite);border-color:#f6e3bd;box-shadow:0 6px 18px rgba(0,0,0,.35);
+  }
+
+  #aviso{
+    position:absolute;z-index:9;left:50%;top:46%;transform:translate(-50%,-50%) scale(.95);
+    background:var(--marfim);color:var(--azul-noite);
+    padding:1em 1.5em;border-radius:14px;text-align:center;
+    font-size:clamp(17px,4.5vw,21px);font-weight:600;line-height:1.3;
+    box-shadow:0 10px 40px rgba(0,0,0,.4);
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;
+  }
+  #aviso.ver{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  #aviso small{display:block;font-weight:500;font-size:.8em;margin-top:.25em;color:var(--azul)}
+
+  @media (prefers-reduced-motion:reduce){
+    .dica{animation:none}
+    .tela{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<main class="palco">
+
+  <!-- 3. Página de presentes -->
+  <section id="presentes" class="tela oculto" aria-label="Dicas de presente">
+    <img src="assets/presentes.jpg" alt="Dicas de presente: PIX 21977123748 (Dianny), perfume ou body splash, hidratante, maquiagem, produto de skincare, vale-presente de roupa, blusa P ou M, tênis ou sandália número 37.">
+    <button class="area" id="area-pix" aria-label="Copiar chave PIX"></button>
+    <button class="botao" id="voltar" aria-label="Voltar ao convite">‹ Convite</button>
+    <button class="botao" id="copiar-pix">Copiar PIX</button>
+  </section>
+
+  <!-- 2. Convite -->
+  <section id="convite" class="tela oculto" aria-label="Convite">
+    <img src="assets/convite.jpg" alt="Dianny Ketleen, XV anos. 17 de outubro de 2026 às 12:00. Espaço Mari, Rua Genival Londres 22, Lameirão Pequeno, Rio da Prata, Campo Grande. Traje casual esporte.">
+    <a class="area" id="area-confirmar" target="_blank" rel="noopener" aria-label="Confirmar presença pelo WhatsApp"></a>
+    <button class="area" id="area-presentes" aria-label="Ver dicas de presente"></button>
+    <a class="area" id="area-local" target="_blank" rel="noopener" aria-label="Abrir localização no mapa"></a>
+  </section>
+
+  <!-- 1. Envelope -->
+  <button id="envelope" class="tela" aria-label="Abrir o convite">
+    <img src="assets/envelope.jpg" alt="">
+    <video id="video" src="assets/abertura.mp4" poster="assets/envelope.jpg" muted playsinline preload="auto"></video>
+    <span class="dica">Toque para abrir</span>
+  </button>
+
+  <button class="botao oculto" id="som" aria-label="Pausar música">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 5 6 9H3v6h3l5 4V5z"/>
+      <path class="onda" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>
+      <path class="mudo" d="M16 9l6 6M22 9l-6 6" style="display:none"/>
+    </svg>
+  </button>
+
+  <div id="aviso" role="status" aria-live="polite"></div>
+</main>
+
+<audio id="musica" src="assets/musica.mp3" loop preload="auto"></audio>
+
+<script>
+  /* ====== DADOS DO CONVITE (edite aqui) ====== */
+  const WHATSAPP   = "5521974644147";
+  const MENSAGEM   = "Confirmo minha presença no aniversário da Dianny Ketleen";
+  const ENDERECO   = "Espaço Mari, Rua Genival Londres 22, Lameirão Pequeno, Rio da Prata, Campo Grande, Rio de Janeiro - RJ";
+  const CHAVE_PIX  = "21977123748";
+  /* =========================================== */
+
+  const $ = id => document.getElementById(id);
+  const envelope = $("envelope"), video = $("video"), musica = $("musica");
+  const convite = $("convite"), presentes = $("presentes"), som = $("som"), aviso = $("aviso");
+
+  $("area-confirmar").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(MENSAGEM)}`;
+  $("area-local").href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ENDERECO)}`;
+
+  let aberto = false;
+
+  function mostrarConvite(){
+    convite.classList.remove("oculto");
+    envelope.classList.add("oculto");
+    som.classList.remove("oculto");
+  }
+
+  envelope.addEventListener("click", () => {
+    if (aberto) return;
+    aberto = true;
+    envelope.classList.add("abrindo");
+    musica.volume = 0.8;
+    musica.play().catch(() => atualizarSom());
+    video.play().catch(mostrarConvite);
+    // segurança: se o vídeo travar, abre o convite mesmo assim
+    setTimeout(() => { if (!envelope.classList.contains("oculto")) mostrarConvite(); }, 8000);
+  });
+  video.addEventListener("ended", mostrarConvite);
+
+  // Música liga/desliga
+  function atualizarSom(){
+    const tocando = !musica.paused;
+    som.querySelector(".onda").style.display = tocando ? "" : "none";
+    som.querySelector(".mudo").style.display = tocando ? "none" : "";
+    som.setAttribute("aria-label", tocando ? "Pausar música" : "Tocar música");
+  }
+  som.addEventListener("click", () => { musica.paused ? musica.play() : musica.pause(); });
+  musica.addEventListener("play", atualizarSom);
+  musica.addEventListener("pause", atualizarSom);
+
+  // Navegação
+  $("area-presentes").addEventListener("click", () => presentes.classList.remove("oculto"));
+  $("voltar").addEventListener("click", () => presentes.classList.add("oculto"));
+
+  // PIX copia e cola
+  let timer;
+  function mostrarAviso(html){
+    aviso.innerHTML = html;
+    aviso.classList.add("ver");
+    clearTimeout(timer);
+    timer = setTimeout(() => aviso.classList.remove("ver"), 2600);
+  }
+  async function copiarPix(){
+    let ok = false;
+    try { await navigator.clipboard.writeText(CHAVE_PIX); ok = true; }
+    catch {
+      const t = document.createElement("textarea");
+      t.value = CHAVE_PIX; t.setAttribute("readonly",""); t.style.position="fixed"; t.style.opacity="0";
+      document.body.appendChild(t); t.select(); t.setSelectionRange(0, 99);
+      try { ok = document.execCommand("copy"); } catch {}
+      t.remove();
+    }
+    mostrarAviso(ok
+      ? `Chave PIX copiada!<small>${CHAVE_PIX} · Dianny</small>`
+      : `Chave PIX:<small>${CHAVE_PIX} · Dianny</small>`);
+  }
+  $("copiar-pix").addEventListener("click", copiarPix);
+  $("area-pix").addEventListener("click", copiarPix);
+</script>
+</body>
+</html>
